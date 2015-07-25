@@ -136,7 +136,6 @@ def Generate_Dhcp_Seq():
     
     LOG(logtype = "NOTICE", message = "已获取IP[{0}]!".format(offered_ip))
 
-    #return all_given_leases, server_id, client_mac
     return offered_ip_ack, server_ip, hw
 
 ################## DHCP RELEASE #################
