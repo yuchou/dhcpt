@@ -68,8 +68,6 @@ def signal_handler(signal, frame):
         t.kill_received = True
         LOG(logtype="DEBUG", message= 'Waiting for Thread [{0}] to die ...'.format(i))
         i+=1
-    #t1.kill_received = True
-    #t2.kill_received = True
     sys.exit(0)
 
 #参数检查
@@ -115,12 +113,7 @@ def checkArgs():
     #    sys.exit(2)
 
 ################## DHCP SEQUENCE #################
-all_given_leases = []
-server_id = []
-client_mac = []
-all_leased_ips = []
 def Generate_Dhcp_Seq():
-    #global all_given_leases
 
     #定义dhcp参数
     x_id = random.randrange(1, 1000000)
@@ -140,9 +133,7 @@ def Generate_Dhcp_Seq():
 
     #提取DHCP Server IP、ACK、client_mac
     server_ip = answr[0][1][IP].src
-    #all_given_leases.append(offered_ip_ack)
-    #server_id.append(server_ip)
-    #client_mac.append(hw)
+    
     LOG(logtype = "NOTICE", message = "已获取IP[{0}]!".format(offered_ip))
 
     #return all_given_leases, server_id, client_mac
@@ -174,16 +165,9 @@ class Do_Req(threading.Thread):
                 LOG(logtype = "NOTICE", message = "THREAD[{0}]我要请求开始了！你准备好了吗？".format(str(self.t_pool)))
                 for iterate in range(0, int(PKT_NO)):
                     leased_ips = Generate_Dhcp_Seq()
-                    #LOG(logtype = "NOTICE", message = "[{0}]".format(leased_ips))
-                    #LOG(logtype = "NOTICE", message = "[{0}]1===>".format(leased_ips[0]))
-                    #LOG(logtype = "NOTICE", message = "[{0}]2===>".format(leased_ips[1]))
-                    #LOG(logtype = "NOTICE", message = "[{0}]3===>".format(leased_ips[2]))
-					#把申请到的IP地址的对应关系写到DHCP_Leases.txt文件
+		    #把申请到的IP地址的对应关系写到DHCP_Leases.txt文件
                     dhcp_leases = open(DHCP_FILE + str(self.t_pool), "a")
-                    #fcntl.flock(dhcp_leases, fcntl.LOCK_EX)
-                    #for index, each_ip in enumerate(all_leased_ips):
                     print >>dhcp_leases, leased_ips[0] + "," + leased_ips[1] + "," + leased_ips[2]
-                    #fcntl.flock(dhcp_leases, fcntl.LOCK_UN)
                     dhcp_leases.close()
             except IndexError,err:
                 #print str(err)
