@@ -56,7 +56,7 @@ def LOG(message=None,logtype=None):
 #设置网卡模式  //暂时未用到
 def Net_Iface_Mode(net_iface):
     if ( sys.platform == 'win32' ):
-        LOG(logtype="ERROR",message="我只爱Linux和MAC，请抛弃Windows吧！")
+        LOG(logtype="ERROR",message="请使用linux！")
     else:
         subprocess.call(["ifconfig", net_iface, "promisc"], stdout=None, stderr=None, shell=False)
 
